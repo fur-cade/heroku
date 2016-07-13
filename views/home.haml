@@ -1,0 +1,9 @@
+- if is_user?
+  Hello,
+  = @user[:username]
+  %br
+  Stay or
+  %a{:href => "/logout?then_to=#{request.fullpath}"} log out
+- else
+  Buzz off or
+  %a{:href => "/login?then_to=#{request.fullpath}"} log in
