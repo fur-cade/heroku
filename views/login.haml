@@ -2,3 +2,7 @@
   %input{:type => 'text', :name => 'username', :placeholder => 'Username'}
   %input{:type => 'password', :name => 'password', :placeholder => 'Password'}
   %input{:type => 'submit', :value => 'Log In'}
+- require 'uri'
+- if params['error'] != nil
+  %div{:style => "background-color: #faa;color: #a00;padding: 1em;font-family: sans-serif;"}
+    = URI.unescape(params['error'])

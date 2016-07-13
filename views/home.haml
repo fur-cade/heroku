@@ -1,6 +1,6 @@
 - if is_user?
   Hello,
-  = @user[:username]
+  = @user.username
   %br
   Stay or
   %a{:href => "/logout?then_to=#{request.fullpath}"} log out

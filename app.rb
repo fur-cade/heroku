@@ -1,7 +1,11 @@
 require 'sinatra/base'
+require 'mongo'
+require 'uri'
+require './lib/user'
 class App < Sinatra::Base
   set :sessions => true
-
+  uri = ENV["MONGODB_URI"] != nil ? ENV["MONGODB_URI"] : "mongodb://127.0.0.1:27017"
+  client = Mongo::Client.new(uri, :database => 'mydb')
   register do
     def auth (type)
       condition do
@@ -24,7 +28,7 @@ class App < Sinatra::Base
   end
 
   before do
-    @user = session[:user_id] != nil ? {:username => session[:user_id]} : nil # Get user via session[:user_id]
+    @user = User.by_sessionid(client, session[:user_id])
   end
 
   get "/" do
@@ -40,8 +44,14 @@ class App < Sinatra::Base
   end
 
   post "/login/auth" do
-    session[:user_id] = params["username"] # User.authenticate(params).id
-    follow_then_to
+    data = User.login(client, params["username"], params["password"]) # User.authenticate(params).id
+    puts "FOO"
+    if data.is_a? String
+      redirect to ("/login?then_to=" + params["then_to"] + "&error=" + URI.escape(data))
+    else
+      session[:user_id] = data
+      follow_then_to
+    end
   end
 
   get "/logout" do
