@@ -1,2 +1,2 @@
-cd kindling/web
-bundler exec woodstove start
+#!/bin/bash
+bundle exec ruby app.rb -p $PORT
