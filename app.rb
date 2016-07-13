@@ -6,6 +6,10 @@ class App < Sinatra::Base
   set :sessions => true
   uri = ENV["MONGODB_URI"] != nil ? ENV["MONGODB_URI"] : "mongodb://127.0.0.1:27017/mydb"
   client = Mongo::Client.new(uri)
+
+  # A password for use on locked pages.
+  lockword = ENV["LOCKWORD"] != nil ? ENV["LOCKWORD"] : "locked"
+
   register do
     def auth (type)
       condition do
@@ -24,6 +28,16 @@ class App < Sinatra::Base
       else
         redirect to params["then_to"]
       end
+    end
+    def locked!
+      return if unlocked?
+      headers['WWW-Authenticate'] = 'Basic realm="Restricted Area"'
+      halt 401, "Not authorized\n"
+    end
+
+    def unlocked?
+      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+      @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', 'LOCKWORD']
     end
   end
 
@@ -52,6 +66,11 @@ class App < Sinatra::Base
       session[:user_id] = data
       follow_then_to
     end
+  end
+
+  get "/register" do
+    locked!
+    "Hello!"
   end
 
   get "/logout" do
