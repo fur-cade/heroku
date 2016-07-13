@@ -4,8 +4,8 @@ require 'uri'
 require './lib/user'
 class App < Sinatra::Base
   set :sessions => true
-  uri = ENV["MONGODB_URI"] != nil ? ENV["MONGODB_URI"] : "mongodb://127.0.0.1:27017"
-  client = Mongo::Client.new(uri, :database => 'mydb')
+  uri = ENV["MONGODB_URI"] != nil ? ENV["MONGODB_URI"] : "mongodb://127.0.0.1:27017/mydb"
+  client = Mongo::Client.new(uri)
   register do
     def auth (type)
       condition do

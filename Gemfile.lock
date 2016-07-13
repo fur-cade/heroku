@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     bson (4.1.1)
+    bson_ext (1.5.1)
     coderay (1.1.1)
     haml (4.0.7)
       tilt
@@ -28,6 +29,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   haml
   mongo
   sinatra
