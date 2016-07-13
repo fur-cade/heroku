@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    woodstove (1.0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  woodstove
+
+BUNDLED WITH
+   1.12.5

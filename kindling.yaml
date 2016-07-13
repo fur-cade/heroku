@@ -1,0 +1,4 @@
+depends:
+  - fur-cade/web@deploy
+scripts:
+  main: run.sh
