@@ -44,7 +44,8 @@ class User
   end
 
   def self.by_sessionid client, sessionid
-    result = client[:sessions].find("$elemMatch" => { :sessionid => sessionid})
+    puts "DEBUG"
+    result = client[:sessions].find("$elemMatch" => { :sessionid => sessionid })
     result.count > 0 ? User.new(client, result[0][:username]) : nil
   end
 
