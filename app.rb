@@ -37,7 +37,7 @@ class App < Sinatra::Base
 
     def unlocked?
       @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-      @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', 'LOCKWORD']
+      @auth.provided? and @auth.basic? and @auth.credentials and @auth.credentials == ['admin', ENV['LOCKWORD']]
     end
   end
 
